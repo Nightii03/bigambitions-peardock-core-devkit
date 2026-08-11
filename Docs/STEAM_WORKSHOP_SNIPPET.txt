@@ -1,0 +1,28 @@
+[h2]For Mod Creators[/h2]
+
+Want to build your own PearPad app?
+
+PearPad includes an add-on API that allows other creators to publish completely separate PearPad apps without modifying PearPad Core.
+
+Custom apps can provide their own:
+[list]
+[*]App name
+[*]App icon
+[*]UI Toolkit page
+[*]Game logic
+[/list]
+
+PearPad automatically integrates registered apps into the tablet.
+
+[b]PearPad Developer Kit:[/b]
+[url=YOUR_GITHUB_RELEASE_LINK]Download SDK / Example Project[/url]
+
+The Developer Kit includes:
+[list]
+[*]API documentation
+[*]Ready-to-use add-on template
+[*]PearPad: Finance source example
+[*]Setup and troubleshooting guide
+[/list]
+
+PearPad Core is required for PearPad add-on apps.

@@ -1,0 +1,19 @@
+PearPad Developer Kit v1
+
+For PearPad Core 1.02 / App Registry API v1.
+
+Included:
+- ready-to-use PearPad add-on template
+- API documentation
+- setup guide
+- troubleshooting guide
+- PearPad: Finance source example
+
+Start with:
+Docs/GETTING_STARTED.md
+
+For a minimal project:
+Template/pearpad-example-app
+
+For a real add-on:
+Examples/PearPad-Finance
