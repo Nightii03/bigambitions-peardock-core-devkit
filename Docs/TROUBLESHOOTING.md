@@ -4,39 +4,46 @@
 
 Check the Unity Console and `Player.log`.
 
-You should see a registration line from your add-on.
-
 Make sure:
 
-- PearPad Core is installed.
-- Your `.asmdef` references `PearPad`.
+- PearDock Core is installed.
+- Your `.asmdef` references `PearDock`.
 - Your mod class has `[assembly: RegisterModClass(...)]`.
 - Your class has `[ModEntryOnInitializationLoad]`.
-- Your app id is unique.
-- `PearPadAppRegistry.Register(...)` is called once.
+- your app id is unique.
+- `PearDockAppRegistry.Register(...)` is called once.
+- `defaultPinned` is `true` if you expect it to appear in the sidebar by default.
 
-## Unity cannot resolve PearPadRuntime
+If it is not pinned in the sidebar, open the PearDock app library and pin it there.
 
-PearPad Core is not present in the same Unity project, or your `.asmdef` does not reference the `PearPad` assembly.
+## Unity cannot resolve PearDockRuntime
+
+PearDock Core is not present in the same Unity project, or your `.asmdef` does not reference the `PearDock` assembly.
 
 ## Duplicate app id
 
-PearPad rejects duplicate ids. Change your add-on app id to a unique value.
+PearDock rejects duplicate ids. Use a unique and stable app id.
 
-## The app opens but looks wrong
+## My content is clipped
 
-Use UI Toolkit `VisualElement`, `Label`, `ScrollView`, etc.
+PearDock windows have a fixed size. Increase the registered `windowSize` or put long content inside a `ScrollView`.
 
-Prefer the colors from `PearPadAppContext` so the app follows PearPad themes.
+Do not add runtime resize logic to work around this.
 
-## The page is larger than the tablet
+## I accidentally built another title bar
 
-Put long content inside a `ScrollView`.
+Do not create an outer window, title bar, Pin/Unpin button or X button inside the add-on UI. PearDock Core creates those. Your `Build` method receives only the content root.
 
-Only scroll the part that should move. Keep headings outside the `ScrollView` if they should stay fixed.
+## Opening another app closes mine
 
-## I need game data that PearPad does not expose
+That is normal for a pinned/normal app. PearDock shows one normal app at a time.
 
-Your add-on can read Big Ambitions data itself like a normal mod.
+Use the window's **UNPIN** control if the user should keep that app open as a floating window while opening another app.
 
-The PearPad API is mainly responsible for app integration and shared PearPad services. It does not need to contain every possible game system.
+## Home closes my app
+
+That is expected. Home closes the current normal app. Unpinned floating windows remain independent and can be closed with X.
+
+## I need game data PearDock does not expose
+
+Your add-on can read Big Ambitions data itself like any other mod. PearDock's API is responsible for app/window integration, not for exposing every game system.
