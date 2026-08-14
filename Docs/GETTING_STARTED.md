@@ -1,149 +1,130 @@
-# PearPad Developer Kit
+# PearDock Developer Kit
 
-Build your own PearPad app as a separate Big Ambitions mod.
+Build a PearDock app as a separate Big Ambitions mod.
 
-PearPad Core stays installed as the main tablet mod. Your add-on only registers an app and draws its own UI inside the PearPad workspace.
+PearDock Core provides the dock, window manager and window chrome. Your add-on registers one or more apps and builds only the content inside each app window.
 
 ## What you need
 
 1. A working Big Ambitions modding Unity project.
-2. PearPad Core 1.02 inside the same Unity project.
+2. PearDock Core in the same Unity project while developing.
 3. This Developer Kit.
 
-Recommended Unity layout:
+Recommended layout:
 
 ```text
 Assets/
+├─ PearDock/
 └─ Mods/
-   ├─ pearpad/
-   └─ pearpad-my-app/
+   └─ my-peardock-app/
 ```
 
-Your add-on assembly references the `PearPad` assembly. PearPad Core must therefore be present in the Unity project while you develop the add-on.
+Your add-on assembly references the `PearDock` assembly.
 
 ## Fast start
 
-1. Copy `Template/pearpad-example-app` into `Assets/Mods/`.
-2. Rename the folder.
-3. Open `PearPad.Example.asmdef` and change the assembly name.
-4. Open `ModManifest.asset` and change:
-   - `ModId`
-   - `DisplayName`
-   - `Author`
-   - `Version`
-5. Rename `PearPadExampleMod.cs` and update the class name if you want.
-6. Change the app id, name and source name in the registration code.
-7. Replace `UIAssets/icon.png`.
-8. Build your page in `ExampleApp.cs`.
-9. Start the game with PearPad Core installed.
-10. Your app should appear automatically on the PearPad Home screen.
+1. Copy `Template/peardock-example-app` into your Unity project.
+2. Rename the folder, namespace and assembly.
+3. Edit `ModManifest.asset` (`ModId`, `DisplayName`, `Author`, `Version`).
+4. Choose a unique app id.
+5. Choose a fixed `windowSize` that fits the UI.
+6. Build your content in `ExampleApp.cs`.
+7. Register once in `OnLoadAsync()`.
+8. Unregister in `OnUnloadAsync()`.
+9. Start Big Ambitions with PearDock Core installed.
 
-## The important part
-
-An add-on registers itself once:
+## Registration
 
 ```csharp
-PearPadAppRegistry.Register(
-    new PearPadAppDefinition(
+registered = PearDockAppRegistry.Register(
+    new PearDockAppDefinition(
         id: "my-app",
         name: "My App",
-        icon: MyAssets.GetIcon(),
-        build: MyApp.Build,
-        showInLauncher: true,
-        canHide: true,
-        sourceName: "PearPad: My App"));
+        icon: ExampleAssets.GetIcon(),
+        windowSize: new Vector2(520f, 420f),
+        build: ExampleApp.Build,
+        defaultPinned: true,
+        sourceName: "My PearDock Add-on"));
 ```
 
-PearPad Core then handles the tablet shell and app launcher.
+## Fixed window size
 
-## What PearPad handles for you
+PearDock does not resize app windows at runtime. Pick a size that fits the app.
 
-- Home-screen app placement
-- PearPad system shell
-- app navigation
-- Back/Home behavior
-- theme colors
-- app icon display
-- registering/unregistering the app
-- future add-on compatibility through the app registry
+Examples:
 
-## What your add-on handles
+```text
+Small utility:   420 x 360
+Settings/QoL:    480 x 560
+Medium app:      700 x 620
+Large dashboard: 1050 x 760
+```
 
-- your own data
-- your own game logic
-- your own UI Toolkit page
-- your own icon
-- your own save data if required
+These are suggestions, not hard limits. PearDock enforces a minimum of 280 x 220.
 
-## PearPadAppContext
+## What PearDock handles
 
-Your page receives a `PearPadAppContext`.
+- TAB / left-side dock
+- opening/focusing apps
+- one normal active app at a time
+- automatically replacing the current normal app when another is opened
+- Home = close the normal active app
+- title bar and X close button
+- Pin/Unpin window behavior
+- floating windows after Unpin
+- dragging windows
+- saved window positions
+- sidebar pin/unpin and ordering
 
-Useful members:
+## Window behavior
+
+A newly opened app starts as the normal active app.
+
+- Open another app: the previous normal app closes.
+- Press Home: the normal app closes and no normal app is shown.
+- Press X: that app closes.
+- Press UNPIN: the app becomes a floating window and is no longer replaced when another app opens.
+- Floating apps can also be closed with X.
+- PIN returns a floating app to normal single-app behavior.
+
+## App content
+
+`Build` receives the content area only:
 
 ```csharp
-context.GoHome();
-context.OpenApp("another-app-id");
-context.ShowToast("Saved.", context.Accent);
-
-Color accent = context.Accent;
-Color background = context.Background;
-Color surface = context.Surface;
-Color surface2 = context.Surface2;
-Color text = context.Text;
-Color muted = context.Muted;
+public static void Build(VisualElement root, PearDockAppContext context)
+{
+    root.Clear();
+    // Build the app UI here.
+}
 ```
 
-Use these colors instead of hard-coded colors when possible. Your app will then fit the active PearPad theme.
+Do not create your own outer window/title bar/X button. PearDock Core does that.
+
+## PearDockAppContext
+
+Available helpers:
+
+```csharp
+context.Close();
+context.BringToFront();
+```
 
 ## App IDs
 
-Choose one unique and stable id.
+Use a unique stable id, for example:
 
-Good:
 ```text
+pearqol
+pearbank
 myname-stocktracker
-pearbay
-companyname-business-tools
+company-tools
 ```
 
-Do not use PearPad Core ids:
+## API version
 
 ```text
-motors
-garage
-casino
-browser
-settings
-finance
+PearDock App Registry API v1
 ```
 
-## Loading
-
-Register once during your mod startup. Do not scan or register every frame.
-
-Unregister your app in `OnUnloadAsync()`.
-
-## Example project
-
-`Examples/PearPad-Finance` is a real separate PearPad add-on. It shows:
-
-- a separate Big Ambitions mod
-- its own assembly
-- its own manifest
-- its own icon
-- app registration
-- UI Toolkit pages
-- reading a public PearPad Core service
-- tabs and transaction UI
-
-Use it as a larger reference after the basic template works.
-
-## PearPad Core version
-
-This kit targets:
-
-```text
-PearPad Core 1.02
-PearPad App Registry API v1
-```
+See `Docs/PEARDOCK_ADDON_API.md` for the full contract.
