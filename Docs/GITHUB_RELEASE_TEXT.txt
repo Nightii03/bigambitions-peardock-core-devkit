@@ -1,19 +1,17 @@
-PearPad Developer Kit v1
+PearDock Core Developer Kit v1
 
-For PearPad Core 1.02 / App Registry API v1.
+For PearDock Core / App Registry API v1.
 
 Included:
-- ready-to-use PearPad add-on template
-- API documentation
+- ready-to-use PearDock add-on template
+- PearDock API documentation
 - setup guide
 - troubleshooting guide
-- PearPad: Finance source example
 
 Start with:
 Docs/GETTING_STARTED.md
 
-For a minimal project:
-Template/pearpad-example-app
+Minimal project:
+Template/peardock-example-app
 
-For a real add-on:
-Examples/PearPad-Finance
+PearDock Core handles the dock, window shell, Home, X close button, Pin/Unpin, dragging and saved window positions. Add-ons only build their content area.
