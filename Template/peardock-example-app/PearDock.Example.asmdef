@@ -1,0 +1,14 @@
+{
+  "name": "PearDock.Example",
+  "rootNamespace": "PearDockExampleRuntime",
+  "references": ["UnityEngine.UI", "PearDock"],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": true,
+  "precompiledReferences": ["BigAmbitions.dll", "BigAmbitions.ModAPI.dll", "BigAmbitions.ModsInternal.dll", "HGExtensions.dll", "HGPlugins.dll"],
+  "autoReferenced": false,
+  "defineConstraints": ["BA_GAME_DLLS_IMPORTED"],
+  "versionDefines": [],
+  "noEngineReferences": false
+}
