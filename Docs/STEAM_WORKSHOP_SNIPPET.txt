@@ -1,28 +1,29 @@
 [h2]For Mod Creators[/h2]
 
-Want to build your own PearPad app?
+Want to build your own PearDock app?
 
-PearPad includes an add-on API that allows other creators to publish completely separate PearPad apps without modifying PearPad Core.
+PearDock Core includes an add-on API so other creators can publish completely separate apps without modifying the core.
 
-Custom apps can provide their own:
+Custom apps provide their own:
 [list]
 [*]App name
 [*]App icon
-[*]UI Toolkit page
+[*]Fixed window size
+[*]UI Toolkit content
 [*]Game logic
 [/list]
 
-PearPad automatically integrates registered apps into the tablet.
+PearDock Core handles the dock, Home, app window, Pin/Unpin, X close button, dragging and saved window positions.
 
-[b]PearPad Developer Kit:[/b]
-[url=YOUR_GITHUB_RELEASE_LINK]Download SDK / Example Project[/url]
+[b]PearDock Developer Kit:[/b]
+[url=YOUR_GITHUB_LINK]GitHub / Developer Kit[/url]
 
 The Developer Kit includes:
 [list]
 [*]API documentation
 [*]Ready-to-use add-on template
-[*]PearPad: Finance source example
-[*]Setup and troubleshooting guide
+[*]Setup guide
+[*]Troubleshooting guide
 [/list]
 
-PearPad Core is required for PearPad add-on apps.
+PearDock Core is required for PearDock add-on apps.
